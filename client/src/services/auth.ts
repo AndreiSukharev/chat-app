@@ -3,8 +3,8 @@ import _ from "lodash";
 
 // const BASE = "http://localhost:8080";
 // const URL = BASE + '/oauth2/authorization/github';
-// const URL = '/oauth2/authorization/github';
-const URL = '/loggedUser';
+const URL = '/oauth2/authorization/github';
+// const URL = '/loggedUser';
 
 export const signInGitHubService = async (): Promise<null> => {
     // await fetch(URL)
