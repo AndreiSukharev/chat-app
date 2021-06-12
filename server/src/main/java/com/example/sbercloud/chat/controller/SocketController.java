@@ -1,7 +1,7 @@
-package com.example.controller;
+package com.example.sbercloud.chat.controller;
 
 
-import com.example.model.Message;
+import com.example.sbercloud.chat.model.Message;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;

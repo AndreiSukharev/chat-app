@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example;
+package com.example.sbercloud.chat;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,7 +26,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
-public class SocialApplication extends WebSecurityConfigurerAdapter {
+public class SberCloudChatApplication extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -61,7 +61,7 @@ public class SocialApplication extends WebSecurityConfigurerAdapter {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(SocialApplication.class, args);
+		SpringApplication.run(SberCloudChatApplication.class, args);
 	}
 
 }
