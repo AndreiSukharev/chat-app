@@ -33,7 +33,9 @@ public class SberCloudChatApplication extends WebSecurityConfigurerAdapter {
 		// @formatter:off
 		http
 			.authorizeRequests()
-				.antMatchers("/actuator/**").permitAll().and()
+				.antMatchers("/actuator/**",
+						"/v3/api-docs/**", "/v3/api-docs",
+						"/swagger-ui/**", "/swagger-ui.html").permitAll().and()
 			.authorizeRequests(a -> a
 				.antMatchers("/", "/error", "/webjars/**").permitAll()
 				.anyRequest().authenticated()
