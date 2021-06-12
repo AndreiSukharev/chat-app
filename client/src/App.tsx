@@ -1,6 +1,6 @@
-import React, {ReactNode, useEffect, useRef, useState} from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '@chatscope/chat-ui-kit-styles/dist/default/styles.min.css';
+import './themes/default/main.scss';
 
 // @ts-ignore
 import SockJsClient from 'react-stomp';
@@ -10,7 +10,6 @@ import NameComponent from './components/NameComponent';
 import { nanoid } from 'nanoid';
 import {
   AutoDraft,
-  BasicStorage,
   ChatMessage,
   Conversation,
   ConversationId,
@@ -25,7 +24,8 @@ import {
   User,
   UserStatus,
 } from '@chatscope/use-chat';
-import { ExampleChatService } from '@chatscope/use-chat/dist/examples';
+import { ChatService } from './lib/ChatService';
+import { Storage } from './lib/Storage';
 import { userModel, users } from './data/data';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Chat } from './components/Chat';
@@ -36,14 +36,11 @@ import { Chat } from './components/Chat';
 // The group id generator is a function that returns string
 const messageIdGenerator = (message: ChatMessage<MessageContentType>) => nanoid();
 const groupIdGenerator = () => nanoid();
-const userStorage = new BasicStorage({ groupIdGenerator, messageIdGenerator });
-const eliotStorage = new BasicStorage({ groupIdGenerator, messageIdGenerator });
-const emilyStorage = new BasicStorage({ groupIdGenerator, messageIdGenerator });
-const joeStorage = new BasicStorage({ groupIdGenerator, messageIdGenerator });
+const userStorage = new Storage({ groupIdGenerator, messageIdGenerator });
 
 // Create serviceFactory
 const serviceFactory = (storage: IStorage, updateState: UpdateState) => {
-  return new ExampleChatService(storage, updateState);
+  return new ChatService(storage, updateState);
 };
 
 const user = new User({
@@ -54,15 +51,10 @@ const user = new User({
   username: userModel.name,
   email: '',
   avatar: userModel.avatar,
-  bio: '',
+  bio: 'Очень интересно',
 });
 
-const chats = [
-  { name: 'User', storage: userStorage },
-  { name: 'Eliot', storage: eliotStorage },
-  { name: 'Emily', storage: emilyStorage },
-  { name: 'Joe', storage: joeStorage },
-];
+const chat = { name: 'User', storage: userStorage };
 
 function createConversation(id: ConversationId, name: string): Conversation {
   return new Conversation({
@@ -80,43 +72,39 @@ function createConversation(id: ConversationId, name: string): Conversation {
 }
 
 // Add users and conversations to the states
-chats.forEach((c) => {
-  users.forEach((u) => {
-    if (u.name !== c.name) {
-      c.storage.addUser(
-        new User({
-          id: u.name,
-          presence: new Presence({ status: UserStatus.Available, description: '' }),
-          firstName: '',
-          lastName: '',
-          username: u.name,
-          email: '',
-          avatar: u.avatar,
-          bio: '',
-        }),
-      );
+users.forEach((u) => {
+  if (u.name !== chat.name) {
+    chat.storage.addUser(
+      new User({
+        id: u.name,
+        presence: new Presence({ status: UserStatus.Available, description: '' }),
+        firstName: '',
+        lastName: '',
+        username: u.name,
+        email: '',
+        avatar: u.avatar,
+        bio: 'Ух ты',
+      }),
+    );
 
-      const conversationId = nanoid();
+    const conversationId = nanoid();
 
-      const myConversation = c.storage
-        .getState()
-        .conversations.find((cv) => typeof cv.participants.find((p) => p.id === u.name) !== 'undefined');
-      if (!myConversation) {
-        c.storage.addConversation(createConversation(conversationId, u.name));
+    const myConversation = chat.storage
+      .getState()
+      .conversations.find((cv) => typeof cv.participants.find((p) => p.id === u.name) !== 'undefined');
+    if (!myConversation) {
+      chat.storage.addConversation(createConversation(conversationId, u.name));
 
-        const chat = chats.find((chat) => chat.name === u.name);
-
-        if (chat) {
-          const hisConversation = chat.storage
-            .getState()
-            .conversations.find((cv) => typeof cv.participants.find((p) => p.id === c.name) !== 'undefined');
-          if (!hisConversation) {
-            chat.storage.addConversation(createConversation(conversationId, c.name));
-          }
+      if (chat) {
+        const hisConversation = chat.storage
+          .getState()
+          .conversations.find((cv) => typeof cv.participants.find((p) => p.id === chat.name) !== 'undefined');
+        if (!hisConversation) {
+          chat.storage.addConversation(createConversation(conversationId, chat.name));
         }
       }
     }
-  });
+  }
 });
 
 const App = () => {
@@ -126,9 +114,9 @@ const App = () => {
 
   useEffect(() => {
     user.username = author;
-  }, [author])
+  }, [author]);
 
-  const sendMessage = ({ author, text }: { author: string, text: string }) => {
+  const sendMessage = ({ author, text }: { author: string; text: string }) => {
     clientRef.current.sendMessage(
       '/app/sendMessage',
       JSON.stringify({
@@ -175,7 +163,7 @@ const App = () => {
           <br />
         </div>
         <SockJsClient
-          url="http://localhost:8080/socket/"
+          url="http://45.9.27.185:31765/socket/"
           topics={['/topic/getMessage']}
           onConnect={() => {
             console.log('connected');
@@ -205,7 +193,7 @@ const App = () => {
                   autoDraft: AutoDraft.Save | AutoDraft.Restore,
                 }}
               >
-                <Chat user={user} sendMsg={sendMessage} />
+                <Chat user={user} />
               </ChatProvider>
             </Col>
           </Row>

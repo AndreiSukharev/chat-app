@@ -1,5 +1,4 @@
-// @ts-nocheck
-import { useMemo, useCallback, useEffect } from 'react';
+import React, { useMemo, useCallback, useEffect } from 'react';
 
 import {
   MainContainer,
@@ -14,17 +13,18 @@ import {
   MessageList,
   MessageInput,
   TypingIndicator,
+  Search,
+  // @ts-ignore
 } from '@chatscope/chat-ui-kit-react';
 
 import { useChat, ChatMessage, MessageContentType, MessageDirection, MessageStatus } from '@chatscope/use-chat';
 import { MessageContent, TextContent, User } from '@chatscope/use-chat';
 
 interface ChatProps {
-  user: User,
-  sendMsg: ({ text: string, author: string }) => void;
+  user: User;
 }
 
-export const Chat: React.FC<ChatProps> = ({ user, sendMsg }) => {
+export const Chat: React.FC<ChatProps> = ({ user }) => {
   // Get all chat related values and methods from useChat hook
   const {
     currentMessages,
@@ -86,8 +86,6 @@ export const Chat: React.FC<ChatProps> = ({ user, sendMsg }) => {
       status: MessageStatus.Sent,
     });
 
-    sendMsg({ text, author: user.username });
-
     if (activeConversation) {
       sendMessage({
         message,
@@ -125,6 +123,7 @@ export const Chat: React.FC<ChatProps> = ({ user, sendMsg }) => {
           <Avatar src={user.avatar} />
           <ConversationHeader.Content>{user.username}</ConversationHeader.Content>
         </ConversationHeader>
+        <Search />
         <ConversationList>
           {conversations.map((c) => {
             // Helper for getting the data of the first participant
