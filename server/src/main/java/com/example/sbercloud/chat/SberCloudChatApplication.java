@@ -26,41 +26,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
-public class SberCloudChatApplication extends WebSecurityConfigurerAdapter {
-
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		// @formatter:off
-		http
-			.authorizeRequests()
-				.antMatchers("/actuator/**",
-						"/v3/api-docs/**", "/v3/api-docs",
-						"/swagger-ui/**", "/swagger-ui.html").permitAll().and()
-			.authorizeRequests(a -> a
-				.antMatchers("/", "/error", "/webjars/**").permitAll()
-				.anyRequest().authenticated()
-			)
-			.exceptionHandling(e -> e
-				.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-			)
-			.oauth2Login();
-		// @formatter:on
-	}
-
-//	@Bean
-//	public WebMvcConfigurer corsConfigurer() {
-//		return new WebMvcConfigurer() {
-//			@Override
-//			public void addCorsMappings(CorsRegistry registry) {
-//				registry
-//						.addMapping("/**")
-//						.allowCredentials(true)
-//						.allowedHeaders("*")
-//						.allowedOrigins("*")
-//						.allowedMethods("*");
-//			}
-//		};
-//	}
+public class SberCloudChatApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(SberCloudChatApplication.class, args);

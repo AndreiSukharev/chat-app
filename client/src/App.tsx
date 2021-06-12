@@ -25,6 +25,7 @@ import { ChatService } from './lib/ChatService';
 import { Storage } from './lib/Storage';
 import { userModel, users } from './data/data';
 import { Chat } from './components/Chat';
+import Login from "./components/login/Login";
 
 const messageIdGenerator = (message: ChatMessage<MessageContentType>) => nanoid();
 const groupIdGenerator = () => nanoid();
@@ -120,7 +121,8 @@ const App = () => {
   return (
     <MuiThemeProvider theme={theme}>
       <div>
-        <NameComponent setName={setAuthor} />
+        <Login/>
+        {/*<NameComponent setName={setAuthor} />*/}
       </div>
       {author && (
         <Box height="100vh" overflow="hidden">
