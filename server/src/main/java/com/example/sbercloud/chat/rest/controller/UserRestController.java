@@ -28,7 +28,7 @@ public class UserRestController {
 
     private final UserRepository userRepository;
 
-    private List<UserPostSaveHandler> postSaveHandlers;
+    private final List<UserPostSaveHandler> postSaveHandlers;
 
     @GetMapping("/{userId}")
     public User findUser(@PathVariable long userId) {
@@ -49,10 +49,16 @@ public class UserRestController {
     }
 
     @PutMapping(consumes = APPLICATION_JSON_VALUE)
-    public void createUser(@RequestBody UserSpec userSpec) {
-        UserEntity userEntity = mapUserSpecToUserEntity(userSpec);
+    public void createUser(final @RequestBody UserSpec userSpec) {
+        UserEntity userEntity = userRepository.findByUsername(userSpec.getUsername())
+                .orElseGet(() -> createUserInternal(userSpec));
+        postSaveHandlers.forEach(userPostSaveHandler -> userPostSaveHandler.handle(userEntity));
+    }
 
-        UserEntity save = userRepository.save(userEntity);
+    private UserEntity createUserInternal(UserSpec userSpec) {
+        UserEntity userEntity = mapUserSpecToUserEntity(userSpec);
+        userRepository.save(userEntity);
+        return userEntity;
     }
 
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
@@ -60,8 +66,6 @@ public class UserRestController {
         // TODO: 12/06/2021 падаем если нет пользователя
         UserEntity currentUserEntity = userRepository.findById(user.getId()).get();
         updateUserEntity(currentUserEntity, user);
-        UserEntity save = userRepository.save(currentUserEntity);
-        postSaveHandlers.forEach(userPostSaveHandler -> userPostSaveHandler.handle(save));
     }
 
     private void updateUserEntity(UserEntity currentUserEntity, User user) {
