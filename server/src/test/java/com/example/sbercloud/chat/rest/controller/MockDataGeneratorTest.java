@@ -1,8 +1,8 @@
 package com.example.sbercloud.chat.rest.controller;
 
-import com.example.sbercloud.chat.dal.repository.ConversationRepository;
-import com.example.sbercloud.chat.dal.repository.MessageRepository;
-import com.example.sbercloud.chat.dal.repository.UserRepository;
+import com.example.sbercloud.chat.persistence.repository.ConversationRepository;
+import com.example.sbercloud.chat.persistence.repository.MessageRepository;
+import com.example.sbercloud.chat.persistence.repository.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
