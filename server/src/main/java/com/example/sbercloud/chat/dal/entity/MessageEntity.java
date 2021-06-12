@@ -1,6 +1,7 @@
 package com.example.sbercloud.chat.dal.entity;
 
 import com.example.sbercloud.chat.dal.sequence.SequenceNameGenerator;
+import com.example.sbercloud.chat.model.Conversation;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -33,5 +34,9 @@ public class MessageEntity {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private UserEntity sender;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "conversation_id")
+    private ConversationEntity conversation;
 
 }
