@@ -249,7 +249,7 @@ $conversation-header-border-bottom: solid 1px $default-border-color !default;
 $conversation-header-border-left: solid 0px $default-border-color !default;
 
 // Colors
-$conversation-header-bg-color: $color-primary-light !default;
+$conversation-header-bg-color: $color-white !default;
 $conversation-header-color: color-by-background($conversation-header-bg-color, $color-text, $color-text-inverted) !default;
 $conversation-header-user-name-color: $conversation-header-color !default;
 $conversation-header-user-name-bg-color: $conversation-header-bg-color !default;
@@ -508,7 +508,7 @@ $message-content-incoming-color: $color-text !default;
 $message-content-incoming-bg-color: $message-content-bg-color !default;
 
 $message-content-outgoing-color: $color-text !default;
-$message-content-outgoing-bg-color: $color-primary-dark !default;
+$message-content-outgoing-bg-color: $color-primary !default;
 
 // Fonts
 $message-font-size: 1em !default;
@@ -571,7 +571,7 @@ $message-group-message-content-incoming-color: $color-text !default;
 $message-group-message-content-incoming-bg-color: $message-group-message-content-bg-color !default;
 
 $message-group-message-content-outgoing-color: $color-text !default;
-$message-group-message-content-outgoing-bg-color: $color-primary-dark !default;
+$message-group-message-content-outgoing-bg-color: $color-primary !default;
 
 // Fonts
 $message-group-header-font-size: 0.8em !default;

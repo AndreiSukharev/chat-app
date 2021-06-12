@@ -19,6 +19,8 @@ import {
 
 import { useChat, ChatMessage, MessageContentType, MessageDirection, MessageStatus } from '@chatscope/use-chat';
 import { MessageContent, TextContent, User } from '@chatscope/use-chat';
+import { Box, IconButton } from '@material-ui/core';
+import {AddBox, Settings, Search as SearchIcon} from '@material-ui/icons';
 
 interface ChatProps {
   user: User;
@@ -121,7 +123,19 @@ export const Chat: React.FC<ChatProps> = ({ user }) => {
       <Sidebar position="left" scrollable>
         <ConversationHeader style={{ backgroundColor: '#fff' }}>
           <Avatar src={user.avatar} />
-          <ConversationHeader.Content>{user.username}</ConversationHeader.Content>
+          <ConversationHeader.Content>
+            <Box display="flex" justifyContent="space-between" alignItems="center">
+              <div className="cs-conversation-header__user-name">{user.username}</div>
+              <div>
+                <IconButton component={Box} p={0.5}>
+                  <AddBox />
+                </IconButton>
+                <IconButton component={Box} p={0.5}>
+                  <Settings />
+                </IconButton>
+              </div>
+            </Box>
+          </ConversationHeader.Content>
         </ConversationHeader>
         <Search />
         <ConversationList>
@@ -144,7 +158,7 @@ export const Chat: React.FC<ChatProps> = ({ user }) => {
               <Conversation
                 key={c.id}
                 name={name}
-                info={c.draft ? `Draft: ${c.draft.replace(/<br>/g, '\n').replace(/&nbsp;/g, ' ')}` : ``}
+                info={c.draft ? `Draft: ${c.draft.replace(/<br>/g, '\n').replace(/&nbsp;/g, ' ')}` : user.bio}
                 active={activeConversation?.id === c.id}
                 unreadCnt={c.unreadCounter}
                 onClick={() => setActiveConversation(c.id)}
@@ -160,7 +174,19 @@ export const Chat: React.FC<ChatProps> = ({ user }) => {
         {activeConversation && (
           <ConversationHeader>
             {currentUserAvatar}
-            <ConversationHeader.Content userName={currentUserName} />
+            <ConversationHeader.Content>
+              <Box display="flex" justifyContent="space-between" alignItems="center">
+                <div className="cs-conversation-header__user-name">{currentUserName}</div>
+                <div>
+                  <IconButton component={Box} p={0.5}>
+                    <SearchIcon />
+                  </IconButton>
+                  <IconButton component={Box} p={0.5}>
+                    <Settings />
+                  </IconButton>
+                </div>
+              </Box>
+            </ConversationHeader.Content>
           </ConversationHeader>
         )}
         <MessageList typingIndicator={getTypingIndicator()}>
@@ -186,8 +212,8 @@ export const Chat: React.FC<ChatProps> = ({ user }) => {
           onChange={handleChange}
           onSend={handleSend}
           disabled={!activeConversation}
-          attachButton={false}
-          placeholder="Type here..."
+          attachButton={true}
+          placeholder="Введите сообщение..."
         />
       </ChatContainer>
     </MainContainer>

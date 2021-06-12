@@ -1,27 +1,30 @@
 @font-face {
   font-family: SBSans;
-  src: url("assets/sb_sans_text/SBSansUI-Bold.otf");
+  src: url('assets/sb_sans_text/SBSansUI-Bold.otf');
   font-weight: bold;
 }
 
 @font-face {
   font-family: SBSans;
-  src: url("assets/sb_sans_text/SBSansUI-Regular.otf");
+  src: url('assets/sb_sans_text/SBSansUI-Regular.otf');
 }
 
 @font-face {
   font-family: SBSans;
-  src: url("assets/sb_sans_text/SBSansUI-Light.otf");
+  src: url('assets/sb_sans_text/SBSansUI-Light.otf');
   font-weight: 200;
 }
 
 body {
   margin: 0;
+  height: 100vh;
+  overflow: hidden;
 }
 
 * {
-  font-family: SBSans, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
-  'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: SBSans, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
+    'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+

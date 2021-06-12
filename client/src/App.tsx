@@ -1,12 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React, { useEffect, useState } from 'react';
 import './themes/default/main.scss';
-
-// @ts-ignore
-import SockJsClient from 'react-stomp';
 import './App.css';
 import './css/MessageStyle.css';
 import NameComponent from './components/NameComponent';
+import { Box } from '@material-ui/core';
 import { nanoid } from 'nanoid';
 import {
   AutoDraft,
@@ -27,13 +24,8 @@ import {
 import { ChatService } from './lib/ChatService';
 import { Storage } from './lib/Storage';
 import { userModel, users } from './data/data';
-import { Container, Row, Col } from 'react-bootstrap';
 import { Chat } from './components/Chat';
 
-// sendMessage and addMessage methods can automagically generate id for messages and groups
-// This allows you to omit doing this manually, but you need to provide a message generator
-// The message id generator is a function that receives message and returns id for this message
-// The group id generator is a function that returns string
 const messageIdGenerator = (message: ChatMessage<MessageContentType>) => nanoid();
 const groupIdGenerator = () => nanoid();
 const userStorage = new Storage({ groupIdGenerator, messageIdGenerator });
@@ -108,101 +100,33 @@ users.forEach((u) => {
 });
 
 const App = () => {
-  const [messages, setMessages] = useState<any[]>([]);
   const [author, setAuthor] = useState('');
-  const clientRef = useRef<any>(null);
 
   useEffect(() => {
     user.username = author;
   }, [author]);
 
-  const sendMessage = ({ author, text }: { author: string; text: string }) => {
-    clientRef.current.sendMessage(
-      '/app/sendMessage',
-      JSON.stringify({
-        author: author,
-        text: text,
-        createdAt: new Date(),
-      }),
-    );
-  };
-
-  const displayMessages = () => {
-    return (
-      <div>
-        {messages.map((msg) => {
-          return (
-            <div key={msg.createdAt}>
-              {author === msg.author ? (
-                <div>
-                  <p className="title1">{msg.author} : </p>
-                  <br />
-                  <p>{msg.text}</p>
-                </div>
-              ) : (
-                <div>
-                  <p className="title2">{msg.author} : </p>
-                  <br />
-                  <p>{msg.text}</p>
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </div>
-    );
-  };
-
   return (
     <>
       <div>
         <NameComponent setName={setAuthor} />
-        <div className="align-center">
-          <h1>Sber chat</h1>
-          <br />
-          <br />
-        </div>
-        <SockJsClient
-          url="http://45.9.27.185:31765/socket/"
-          topics={['/topic/getMessage']}
-          onConnect={() => {
-            console.log('connected');
-          }}
-          onDisconnect={() => {
-            console.log('Disconnected');
-          }}
-          onMessage={(msg: any) => {
-            setMessages([...messages, msg]);
-          }}
-          ref={(client: any) => {
-            clientRef.current = client;
-          }}
-        />
       </div>
       {author && (
-        <Container fluid className="h-100 p-4">
-          <Row className="h-50 pb-2 flex-nowrap">
-            <Col>
-              <ChatProvider
-                serviceFactory={serviceFactory}
-                storage={userStorage}
-                config={{
-                  typingThrottleTime: 250,
-                  typingDebounceTime: 900,
-                  debounceTyping: true,
-                  autoDraft: AutoDraft.Save | AutoDraft.Restore,
-                }}
-              >
-                <Chat user={user} />
-              </ChatProvider>
-            </Col>
-          </Row>
-        </Container>
+        <Box height="100vh" overflow="hidden">
+          <ChatProvider
+            serviceFactory={serviceFactory}
+            storage={userStorage}
+            config={{
+              typingThrottleTime: 250,
+              typingDebounceTime: 900,
+              debounceTyping: true,
+              autoDraft: AutoDraft.Save | AutoDraft.Restore,
+            }}
+          >
+            <Chat user={user} />
+          </ChatProvider>
+        </Box>
       )}
-      <div className="align-center">
-        User: <p className="title1">{author}</p>
-      </div>
-      <div className="align-center">{displayMessages()}</div>
     </>
   );
 };
