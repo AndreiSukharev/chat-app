@@ -156,9 +156,7 @@
       .#{$prefix}-conversation-header {
 
         .#{$prefix}-conversation-header__actions {
-          .#{$prefix}-button--info {
-            display: flex;
-          }
+           display: none;
         }
         
       }
@@ -170,7 +168,43 @@
       min-width: auto;
       
       > .#{$prefix}-sidebar.#{$prefix}-sidebar--left {
-        display:none;
+        flex: 1 0 100%;
+        max-width: unset;
+
+        .#{$prefix}-conversation-list {
+
+          .#{$prefix}-conversation {
+            > .#{$prefix}-avatar {
+              margin-right: 1em; // Reset right margin
+            }
+
+            &__content {
+              display: block;
+            }
+
+            &__operations {
+              display: block;
+            }
+
+            &__last-activity-time {
+              display: block;
+            }
+            &__unread-dot {
+              position:absolute;
+              top:0.3em;
+              right:0.3em;
+              margin-right:0;
+            }
+          }
+        }
+
+        .#{$prefix}-conversation-header {
+
+          .#{$prefix}-conversation-header__actions {
+            display: block;
+          }
+
+        }
       }
 
 
@@ -187,7 +221,6 @@
           
         }
       }
-      
       
       
     }

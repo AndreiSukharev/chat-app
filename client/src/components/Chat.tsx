@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useEffect } from 'react';
+import React, { useMemo, useCallback, useEffect, useState } from 'react';
 
 import {
   MainContainer,
@@ -20,7 +20,7 @@ import {
 import { useChat, ChatMessage, MessageContentType, MessageDirection, MessageStatus } from '@chatscope/use-chat';
 import { MessageContent, TextContent, User } from '@chatscope/use-chat';
 import { Box, IconButton } from '@material-ui/core';
-import {AddBox, Settings, Search as SearchIcon} from '@material-ui/icons';
+import { AddBox, Settings, Search as SearchIcon } from '@material-ui/icons';
 
 interface ChatProps {
   user: User;
@@ -120,22 +120,18 @@ export const Chat: React.FC<ChatProps> = ({ user }) => {
 
   return (
     <MainContainer responsive>
-      <Sidebar position="left" scrollable>
+      <Sidebar position="left" scrollable style={{ display: !activeConversation || window.innerWidth > 576 ? 'block' : 'none' }}>
         <ConversationHeader style={{ backgroundColor: '#fff' }}>
           <Avatar src={user.avatar} />
-          <ConversationHeader.Content>
-            <Box display="flex" justifyContent="space-between" alignItems="center">
-              <div className="cs-conversation-header__user-name">{user.username}</div>
-              <div>
-                <IconButton component={Box} p={0.5}>
-                  <AddBox />
-                </IconButton>
-                <IconButton component={Box} p={0.5}>
-                  <Settings />
-                </IconButton>
-              </div>
-            </Box>
-          </ConversationHeader.Content>
+          <ConversationHeader.Content userName={user.username} />
+          <ConversationHeader.Actions>
+            <IconButton component={Box} p={0.5}>
+              <AddBox />
+            </IconButton>
+            <IconButton component={Box} p={0.5}>
+              <Settings />
+            </IconButton>
+          </ConversationHeader.Actions>
         </ConversationHeader>
         <Search />
         <ConversationList>
@@ -169,53 +165,52 @@ export const Chat: React.FC<ChatProps> = ({ user }) => {
           })}
         </ConversationList>
       </Sidebar>
-
-      <ChatContainer>
-        {activeConversation && (
+      {activeConversation && (
+        <ChatContainer>
           <ConversationHeader>
+            <ConversationHeader.Back onClick={() => setActiveConversation('')} />
             {currentUserAvatar}
-            <ConversationHeader.Content>
-              <Box display="flex" justifyContent="space-between" alignItems="center">
-                <div className="cs-conversation-header__user-name">{currentUserName}</div>
-                <div>
-                  <IconButton component={Box} p={0.5}>
-                    <SearchIcon />
-                  </IconButton>
-                  <IconButton component={Box} p={0.5}>
-                    <Settings />
-                  </IconButton>
-                </div>
-              </Box>
-            </ConversationHeader.Content>
+            <ConversationHeader.Content userName={currentUserName} />
+            <ConversationHeader.Actions>
+              <IconButton component={Box} p={0.5}>
+                <SearchIcon />
+              </IconButton>
+              <IconButton component={Box} p={0.5}>
+                <Settings />
+              </IconButton>
+            </ConversationHeader.Actions>
           </ConversationHeader>
-        )}
-        <MessageList typingIndicator={getTypingIndicator()}>
-          {activeConversation &&
-            currentMessages.map((g: MessageGroup) => (
-              <MessageGroup key={g.id} direction={g.direction}>
-                <MessageGroup.Messages>
-                  {g.messages.map((m: ChatMessage<MessageContentType>) => (
-                    <Message
-                      key={m.id}
-                      model={{
-                        type: 'html',
-                        payload: m.content,
-                      }}
-                    />
-                  ))}
-                </MessageGroup.Messages>
-              </MessageGroup>
-            ))}
-        </MessageList>
-        <MessageInput
-          value={currentMessage}
-          onChange={handleChange}
-          onSend={handleSend}
-          disabled={!activeConversation}
-          attachButton={true}
-          placeholder="Введите сообщение..."
-        />
-      </ChatContainer>
+          <MessageList typingIndicator={getTypingIndicator()}>
+            {activeConversation &&
+              currentMessages.map((g: MessageGroup) => (
+                <MessageGroup key={g.id} direction={g.direction}>
+                  <MessageGroup.Messages>
+                    {g.messages.map((m: ChatMessage<MessageContentType>) => (
+                      <Message
+                        key={m.id}
+                        model={{
+                          type: 'html',
+                          payload: m.content,
+                        }}
+                      />
+                    ))}
+                  </MessageGroup.Messages>
+                </MessageGroup>
+              ))}
+          </MessageList>
+
+          {activeConversation && (
+            <MessageInput
+              value={currentMessage}
+              onChange={handleChange}
+              onSend={handleSend}
+              disabled={!activeConversation}
+              attachButton={true}
+              placeholder="Введите сообщение..."
+            />
+          )}
+        </ChatContainer>
+      )}
     </MainContainer>
   );
 };

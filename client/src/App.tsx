@@ -3,7 +3,7 @@ import './themes/default/main.scss';
 import './App.css';
 import './css/MessageStyle.css';
 import NameComponent from './components/NameComponent';
-import { Box } from '@material-ui/core';
+import { Box, createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 import { nanoid } from 'nanoid';
 import {
   AutoDraft,
@@ -99,6 +99,17 @@ users.forEach((u) => {
   }
 });
 
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: '#00EA95',
+    },
+    secondary: {
+      main: '#D2D2D2',
+    },
+  },
+});
+
 const App = () => {
   const [author, setAuthor] = useState('');
 
@@ -107,7 +118,7 @@ const App = () => {
   }, [author]);
 
   return (
-    <>
+    <MuiThemeProvider theme={theme}>
       <div>
         <NameComponent setName={setAuthor} />
       </div>
@@ -127,7 +138,7 @@ const App = () => {
           </ChatProvider>
         </Box>
       )}
-    </>
+    </MuiThemeProvider>
   );
 };
 
