@@ -45,7 +45,4 @@ public class UserEntity {
      * Email пользователя
      */
     private String email;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sender", orphanRemoval = true)
-    private List<MessageEntity> messages;
 }

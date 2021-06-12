@@ -3,16 +3,13 @@ package com.example.sbercloud.chat.model;
 import lombok.Data;
 
 /**
+ * Спецификация описывающая пользователя.
+ *
  * @author Bulygin D.N.
  * @since 12.06.2021
  */
 @Data
-public class User {
-
-    /**
-     * Идентификатор
-     */
-    private Long id;
+public class UserSpec {
 
     /**
      * Имя пользователя
@@ -33,5 +30,4 @@ public class User {
      * Email пользователя
      */
     private String email;
-
 }

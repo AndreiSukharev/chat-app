@@ -5,14 +5,15 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author Bulygin D.N.
  * @since 12.06.2021
  */
 @Data
-@Entity(name = "message")
-public class MessageEntity {
+@Entity(name = "conversation")
+public class ConversationEntity {
 
     /**
      * Идентификатор
@@ -25,13 +26,7 @@ public class MessageEntity {
     @GeneratedValue(generator = SequenceNameGenerator.GENERATOR_NAME)
     private long id;
 
-    /**
-     * Контент сообщения
-     */
-    private String content;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private UserEntity sender;
-
+    @OneToMany(cascade = CascadeType.MERGE, orphanRemoval = true)
+    @JoinColumn(name = "conversation_id")
+    private List<UserEntity> participants;
 }
