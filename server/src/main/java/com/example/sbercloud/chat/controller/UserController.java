@@ -1,7 +1,7 @@
 package com.example.sbercloud.chat.controller;
 
-import com.example.sbercloud.chat.dal.entity.UserEntity;
-import com.example.sbercloud.chat.dal.repository.UserRepository;
+import com.example.sbercloud.chat.persistence.entity.UserEntity;
+import com.example.sbercloud.chat.persistence.repository.UserRepository;
 import com.example.sbercloud.chat.model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

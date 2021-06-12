@@ -1,9 +1,9 @@
 package com.example.sbercloud.chat.rest.controller;
 
-import com.example.sbercloud.chat.dal.entity.ConversationEntity;
-import com.example.sbercloud.chat.dal.entity.UserEntity;
-import com.example.sbercloud.chat.dal.repository.ConversationRepository;
-import com.example.sbercloud.chat.dal.repository.UserRepository;
+import com.example.sbercloud.chat.persistence.entity.ConversationEntity;
+import com.example.sbercloud.chat.persistence.entity.UserEntity;
+import com.example.sbercloud.chat.persistence.repository.ConversationRepository;
+import com.example.sbercloud.chat.persistence.repository.UserRepository;
 import com.example.sbercloud.chat.model.Conversation;
 import com.example.sbercloud.chat.model.ConversationSpec;
 import com.example.sbercloud.chat.model.User;
