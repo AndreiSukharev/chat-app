@@ -1,11 +1,10 @@
-package com.example.sbercloud.chat.dal.entity;
+package com.example.sbercloud.chat.persistence.entity;
 
-import com.example.sbercloud.chat.dal.sequence.SequenceNameGenerator;
+import com.example.sbercloud.chat.persistence.sequence.SequenceNameGenerator;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.List;
 
 /**
  * @author Bulygin D.N.

@@ -1,4 +1,4 @@
-package com.example.sbercloud.chat.dal.sequence;
+package com.example.sbercloud.chat.persistence.sequence;
 
 import org.hibernate.id.PersistentIdentifierGenerator;
 import org.hibernate.id.enhanced.SequenceStyleGenerator;

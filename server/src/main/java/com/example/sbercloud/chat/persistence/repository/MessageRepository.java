@@ -1,6 +1,6 @@
-package com.example.sbercloud.chat.dal.repository;
+package com.example.sbercloud.chat.persistence.repository;
 
-import com.example.sbercloud.chat.dal.entity.MessageEntity;
+import com.example.sbercloud.chat.persistence.entity.MessageEntity;
 import org.springframework.data.repository.CrudRepository;
 
 /**

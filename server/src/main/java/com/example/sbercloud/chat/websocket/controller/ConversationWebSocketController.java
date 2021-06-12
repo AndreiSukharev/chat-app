@@ -1,6 +1,6 @@
 package com.example.sbercloud.chat.websocket.controller;
 
-import com.example.sbercloud.chat.dal.entity.ConversationEntity;
+import com.example.sbercloud.chat.persistence.entity.ConversationEntity;
 import com.example.sbercloud.chat.model.Conversation;
 import com.example.sbercloud.chat.model.Message;
 import lombok.RequiredArgsConstructor;
