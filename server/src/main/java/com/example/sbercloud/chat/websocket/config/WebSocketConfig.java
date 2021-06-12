@@ -1,4 +1,4 @@
-package com.example.sbercloud.chat.config;
+package com.example.sbercloud.chat.websocket.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

@@ -13,19 +13,19 @@ public class SberCloudChatApplication {
 		SpringApplication.run(SberCloudChatApplication.class, args);
 	}
 
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry
-						.addMapping("/**")
-						.allowCredentials(true)
-						.allowedHeaders("*")
-						.allowedOrigins("*")
-						.allowedMethods("*");
-			}
-		};
-	}
+//	@Bean
+//	public WebMvcConfigurer corsConfigurer() {
+//		return new WebMvcConfigurer() {
+//			@Override
+//			public void addCorsMappings(CorsRegistry registry) {
+//				registry
+//						.addMapping("/**")
+//						.allowCredentials(true)
+//						.allowedHeaders("*")
+//						.allowedOrigins("*")
+//						.allowedMethods("*");
+//			}
+//		};
+//	}
 
 }
