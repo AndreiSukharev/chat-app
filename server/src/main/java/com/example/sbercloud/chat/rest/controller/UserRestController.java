@@ -28,6 +28,8 @@ public class UserRestController {
 
     private final UserRepository userRepository;
 
+    private List<UserPostSaveHandler> postSaveHandlers;
+
     @GetMapping("/{userId}")
     public User findUser(@PathVariable long userId) {
         Optional<UserEntity> userSearchResult = userRepository.findById(userId);
@@ -49,6 +51,7 @@ public class UserRestController {
     @PutMapping(consumes = APPLICATION_JSON_VALUE)
     public void createUser(@RequestBody UserSpec userSpec) {
         UserEntity userEntity = mapUserSpecToUserEntity(userSpec);
+
         UserEntity save = userRepository.save(userEntity);
     }
 
@@ -58,6 +61,7 @@ public class UserRestController {
         UserEntity currentUserEntity = userRepository.findById(user.getId()).get();
         updateUserEntity(currentUserEntity, user);
         UserEntity save = userRepository.save(currentUserEntity);
+        postSaveHandlers.forEach(userPostSaveHandler -> userPostSaveHandler.handle(save));
     }
 
     private void updateUserEntity(UserEntity currentUserEntity, User user) {

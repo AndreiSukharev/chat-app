@@ -26,7 +26,6 @@ public class ConversationEntity {
     @GeneratedValue(generator = SequenceNameGenerator.GENERATOR_NAME)
     private long id;
 
-    @OneToMany(cascade = CascadeType.MERGE, orphanRemoval = true)
-    @JoinColumn(name = "conversation_id")
+    @ManyToMany
     private List<UserEntity> participants;
 }
