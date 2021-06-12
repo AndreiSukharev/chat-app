@@ -1,4 +1,4 @@
-package com.example.sbercloud.chat.Controller;
+package com.example.sbercloud.chat.controller;
 
 import com.example.sbercloud.chat.model.Message;
 import org.springframework.messaging.handler.annotation.MessageMapping;
