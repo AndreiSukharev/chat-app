@@ -5,6 +5,7 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author Bulygin D.N.
@@ -44,4 +45,11 @@ public class UserEntity {
      * Email пользователя
      */
     private String email;
+
+    /**
+     * Список бесед
+     */
+    @ManyToMany
+    private List<ConversationEntity> conversations;
+
 }

@@ -17,7 +17,7 @@ import static org.hibernate.internal.util.StringHelper.isNotEmpty;
 public class SequenceNameGenerator extends SequenceStyleGenerator {
     private static final String SEQUENCE_POSTFIX = "_id_seq";
     public static final String GENERATOR_NAME = "generator";
-    public static final String STRATEGY_NAME = "com.example.sbercloud.chat.dal.sequence.SequenceNameGenerator";
+    public static final String STRATEGY_NAME = "com.example.sbercloud.chat.persistence.sequence.SequenceNameGenerator";
 
     @Override
     public void configure(Type type, Properties params, ServiceRegistry serviceRegistry) {
