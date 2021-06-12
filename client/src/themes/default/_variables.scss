@@ -216,12 +216,12 @@ $conversation-unread-bg-color: $color-danger !default;
 $conversation-hover-bg-color: $color-bg-hover !default;
 $conversation-unread-dot-color: #2e63e8 !default;
 $conversation-name-color: $color-text !default;
-$conversation-name-activated-color: $color-activated !default;
+$conversation-name-activated-color: $conversation-color !default;
 $conversation-info-color: $color-text-medium !default;
-$conversation-info-activated-color: $color-activated !default;
+$conversation-info-activated-color: $conversation-color !default;
 $conversation-active-color: $conversation-color !default;
 $conversation-active-bg-color: $color-bg-active !default;
-$conversation-activated-color: $color-activated !default;
+$conversation-activated-color: $conversation-color !default;
 $conversation-activated-bg-color: $color-bg-activated !default;
 
 // Fonts

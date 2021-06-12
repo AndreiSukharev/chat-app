@@ -41,6 +41,23 @@ export const Chat: React.FC<ChatProps> = ({ user }) => {
     setCurrentUser,
   } = useChat();
 
+  const [search, setSearch] = useState('');
+  const [filteredConversations, setFilteredConversations] = useState(conversations);
+
+  useEffect(() => {
+    const id = setTimeout(() => {
+      setFilteredConversations(
+        !search
+          ? conversations
+          : conversations.filter(
+          (c) => c.participants[0] && getUser(c.participants[0].id)?.username.toLowerCase().indexOf(search.toLowerCase()) !== -1,
+          ),
+      );
+    }, 100)
+
+    return () => clearTimeout(id);
+  }, [search, conversations]);
+
   useEffect(() => {
     setCurrentUser(user);
   }, [user, setCurrentUser]);
@@ -120,7 +137,11 @@ export const Chat: React.FC<ChatProps> = ({ user }) => {
 
   return (
     <MainContainer responsive>
-      <Sidebar position="left" scrollable style={{ display: !activeConversation || window.innerWidth > 576 ? 'block' : 'none' }}>
+      <Sidebar
+        position="left"
+        scrollable
+        style={{ display: !activeConversation || window.innerWidth > 576 ? 'block' : 'none' }}
+      >
         <ConversationHeader style={{ backgroundColor: '#fff' }}>
           <Avatar src={user.avatar} />
           <ConversationHeader.Content userName={user.username} />
@@ -133,9 +154,9 @@ export const Chat: React.FC<ChatProps> = ({ user }) => {
             </IconButton>
           </ConversationHeader.Actions>
         </ConversationHeader>
-        <Search />
+        <Search onChange={setSearch} onClearClick={() => setSearch('')} placeholder="Найти..." />
         <ConversationList>
-          {conversations.map((c) => {
+          {filteredConversations.map((c) => {
             // Helper for getting the data of the first participant
             const [avatar, name] = (() => {
               const participant = c.participants.length > 0 ? c.participants[0] : undefined;
@@ -154,7 +175,7 @@ export const Chat: React.FC<ChatProps> = ({ user }) => {
               <Conversation
                 key={c.id}
                 name={name}
-                info={c.draft ? `Draft: ${c.draft.replace(/<br>/g, '\n').replace(/&nbsp;/g, ' ')}` : user.bio}
+                info={c.draft ? `Черновик: ${c.draft.replace(/<br>/g, '\n').replace(/&nbsp;/g, ' ')}` : user.bio}
                 active={activeConversation?.id === c.id}
                 unreadCnt={c.unreadCounter}
                 onClick={() => setActiveConversation(c.id)}
