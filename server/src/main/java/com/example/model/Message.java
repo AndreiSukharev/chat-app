@@ -1,12 +1,12 @@
-package com.example.sbercloud.chat.model;
+package com.example.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-//import lombok.Data;
+import lombok.Data;
 
 import java.util.Date;
 
-//@Data
+@Data
 public class Message {
 
     private String text;
