@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class FirstLoginHandler implements UserPostSaveHandler {
 
     private ConversationEntity commonConversationEntity;
 
-    @PostMapping
+    @PostConstruct
     private void init() {
         botUserEntity = userRepository.findById(-1L).orElseGet(this::createBotUser);
         commonConversationEntity = conversationRepository.findById(-1L).orElseGet(this::createCommonConversation);
@@ -39,7 +40,7 @@ public class FirstLoginHandler implements UserPostSaveHandler {
         try {
             ConversationEntity conversationEntity = new ConversationEntity();
             conversationEntity.setId(-1L);
-            conversationRepository.save(conversationEntity);
+            conversationRepository.saveAndFlush(conversationEntity);
             return conversationEntity;
         } catch (Exception e) {
             return conversationRepository.findById(-1L).orElseThrow(
@@ -50,10 +51,12 @@ public class FirstLoginHandler implements UserPostSaveHandler {
     private UserEntity createBotUser() {
         try {
             UserEntity user = new UserEntity();
+            user.setId(-1L);
             user.setUsername("chatBot");
             user.setFirstName("Чат");
             user.setLastName("Бот");
             user.setEmail("chatBot@gmail.com");
+            userRepository.saveAndFlush(user);
             return user;
         } catch (Exception e) {
             return userRepository.findById(-1L).orElseThrow(
@@ -62,19 +65,16 @@ public class FirstLoginHandler implements UserPostSaveHandler {
     }
 
     public void handle(UserEntity newUser) {
-        final List<ConversationEntity> conversations = new ArrayList<>();
-        conversations.add(commonConversationEntity);
-        ConversationEntity chatBotConversationEntity = new ConversationEntity();
-        chatBotConversationEntity.setParticipants(asList(botUserEntity, newUser));
-        conversationRepository.save(chatBotConversationEntity);
-        conversations.add(chatBotConversationEntity);
-        if (newUser.getConversations() == null) {
-            newUser.setConversations(conversations);
-        } else {
-            newUser.getConversations().addAll(conversations);
-        }
-        userRepository.save(newUser);
-        createMessage(chatBotConversationEntity, botUserEntity, "Приветствую вас в нашем чате!");
+//        final List<ConversationEntity> conversations = new ArrayList<>();
+//        conversations.add(commonConversationEntity);
+//        ConversationEntity chatBotConversationEntity = new ConversationEntity();
+//        conversationRepository.saveAndFlush(chatBotConversationEntity);
+//        conversations.add(chatBotConversationEntity);
+//        newUser.setConversations(conversations);
+//        userRepository.saveAndFlush(newUser);
+//        chatBotConversationEntity.setParticipants(asList(botUserEntity, newUser));
+//        conversationRepository.saveAndFlush(chatBotConversationEntity);
+//        createMessage(chatBotConversationEntity, botUserEntity, "Приветствую вас в нашем чате!");
     }
 
     private void createMessage(ConversationEntity conversation, UserEntity sender, String content) {
