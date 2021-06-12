@@ -32,6 +32,8 @@ public class SocialApplication extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		// @formatter:off
 		http
+			.authorizeRequests()
+				.antMatchers("/actuator/**").permitAll().and()
 			.authorizeRequests(a -> a
 				.antMatchers("/", "/error", "/webjars/**").permitAll()
 				.anyRequest().authenticated()
