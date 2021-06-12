@@ -1,10 +1,7 @@
 package com.example.sbercloud.chat.websocket.controller;
 
-import com.example.sbercloud.chat.persistence.entity.ConversationEntity;
-import com.example.sbercloud.chat.model.Conversation;
 import com.example.sbercloud.chat.model.Message;
 import lombok.RequiredArgsConstructor;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -20,16 +17,8 @@ public class ConversationWebSocketController {
 
     private final SimpMessagingTemplate messagingTemplate;
 
-    @MessageMapping("/conversations/{conversationId}")
-    public void addMessageToConversation(@Payload Message message, @DestinationVariable("conversationId") String conversationId) {
-        // path example: /conversations/1/messages
-        messagingTemplate.convertAndSend("/conversations/" + conversationId + "/messages", message);
-    }
-
-    private Conversation mapConversationEntityToConversation(ConversationEntity conversationEntity) {
-        Conversation conversation = new Conversation();
-        conversation.setId(conversation.getId());
-        conversation.setParticipants(conversation.getParticipants());
-        return conversation;
+    @MessageMapping("/conversations")
+    public void addMessageToConversation(@Payload Message message) {
+        messagingTemplate.convertAndSend("/conversations/messages", message);
     }
 }

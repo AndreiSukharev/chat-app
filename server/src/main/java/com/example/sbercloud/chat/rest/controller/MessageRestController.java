@@ -16,7 +16,7 @@ import java.util.Optional;
  */
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/message")
+@RequestMapping("/messages")
 public class MessageRestController {
 
     private final MessageRepository messageRepository;
