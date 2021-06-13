@@ -1,5 +1,6 @@
 package com.example.sbercloud.chat.service.user;
 
+import com.example.sbercloud.chat.model.ConversationType;
 import com.example.sbercloud.chat.persistence.entity.*;
 import com.example.sbercloud.chat.persistence.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,7 @@ public class FirstLoginHandler implements UserPostSaveHandler {
         try {
             ConversationEntity conversationEntity = new ConversationEntity();
             conversationEntity.setId(FIRST_ID);
+            conversationEntity.setType(ConversationType.CHANNEL);
             conversationRepository.save(conversationEntity);
             return conversationEntity;
         } catch (Exception e) {
@@ -67,6 +69,7 @@ public class FirstLoginHandler implements UserPostSaveHandler {
 
     public void handle(UserEntity newUser) {
         ConversationEntity chatBotConversationEntity = new ConversationEntity();
+        chatBotConversationEntity.setType(ConversationType.BOT);
         conversationRepository.save(chatBotConversationEntity);
         createParticipants(chatBotConversationEntity, newUser);
         createMessage(chatBotConversationEntity, botUserEntity, "Приветствую вас в нашем чате!");
