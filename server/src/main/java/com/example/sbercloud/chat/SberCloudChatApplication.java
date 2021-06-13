@@ -15,12 +15,17 @@
  */
 package com.example.sbercloud.chat;
 
+import com.example.sbercloud.chat.cors.CorsFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.Ordered;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import javax.servlet.Filter;
 
 @SpringBootApplication
 public class SberCloudChatApplication {
@@ -42,6 +47,21 @@ public class SberCloudChatApplication {
 						.allowedMethods("*");
 			}
 		};
+	}
+
+
+	@Bean
+	public FilterRegistrationBean someFilterRegistration() {
+		FilterRegistrationBean registration = new FilterRegistrationBean();
+		registration.setFilter(chatCorsFilter());
+		registration.addUrlPatterns("/*");
+		registration.setOrder(Ordered.HIGHEST_PRECEDENCE);
+		return registration;
+	}
+
+	@Bean
+	public Filter chatCorsFilter() {
+		return new CorsFilter();
 	}
 
 }
