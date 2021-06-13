@@ -19,3 +19,6 @@ spring:
 #logging:
 #  level:
 #    org.springframework.security: DEBUG
+logging:
+  level:
+    com.example.sbercloud.chat: DEBUG

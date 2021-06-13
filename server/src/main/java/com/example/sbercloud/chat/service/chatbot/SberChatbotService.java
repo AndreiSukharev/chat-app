@@ -1,7 +1,6 @@
 package com.example.sbercloud.chat.service.chatbot;
 
 import com.example.sbercloud.chat.model.Message;
-import com.example.sbercloud.chat.persistence.entity.MessageEntity;
 import com.example.sbercloud.chat.persistence.repository.ConversationRepository;
 import com.example.sbercloud.chat.persistence.repository.MessageRepository;
 import com.example.sbercloud.chat.persistence.repository.UserRepository;
@@ -9,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import static com.example.sbercloud.chat.utility.Constant.CHATBOT_USER_ID;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 
 /**
  * @author Bulygin D.N.
@@ -33,6 +33,10 @@ public class SberChatbotService implements ChatbotService {
     }
 
     private String generateContent(String content) {
+        String generatedContent = null;
+        if (isBlank(generatedContent) && content.contains("Помочь бизнесу")) {
+            generatedContent = "Мы предлагаем сформировать СТП на твой сайт";
+        }
         return "И тебе не хворать кожаный мешок";
     }
 }

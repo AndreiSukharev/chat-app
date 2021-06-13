@@ -33,6 +33,7 @@ public class ConversationMessageService implements MessageService {
 
     @Override
     public void processMessage(Message message) {
+        log.debug(format("Message processing started: Message: [{0}]", message));
 //        MessageEntity messageEntity = mapMessageToMessageEntity(message);
 //        messageRepository.save(messageEntity);
         if (false) {
