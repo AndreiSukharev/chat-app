@@ -1,10 +1,10 @@
 package com.example.sbercloud.chat.websocket.controller;
 
 import com.example.sbercloud.chat.model.Message;
+import com.example.sbercloud.chat.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
 /**
@@ -15,10 +15,10 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class ConversationWebSocketController {
 
-    private final SimpMessagingTemplate messagingTemplate;
+    private final MessageService messageService;
 
     @MessageMapping("/conversations")
     public void addMessageToConversation(@Payload Message message) {
-        messagingTemplate.convertAndSend("/conversations/messages", message);
+        messageService.processMessage(message);
     }
 }

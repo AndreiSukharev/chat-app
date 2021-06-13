@@ -10,19 +10,18 @@ import {
   Conversation,
   ConversationId,
   ConversationRole,
-  MessageContentType,
-  Participant,
   Presence,
   ChatProvider,
   TypingUsersList,
   User,
   UserStatus,
-  BasicStorage,
+  BasicStorage, Participant,
 } from '@chatscope/use-chat';
 import { serviceFactory } from './lib/ChatService';
 import { userModel, users } from './data/data';
 import { Chat } from './components/Chat';
 import Login from './components/login/Login';
+import {MessageContentType} from "@chatscope/use-chat";
 
 const messageIdGenerator = (message: ChatMessage<MessageContentType>) => nanoid();
 const groupIdGenerator = () => nanoid();
