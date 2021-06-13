@@ -1,4 +1,16 @@
-# REST API
+# API
+## WebSocket
+Путь для подключения к сокету - ***/socket***  
+Путь для отправки сообщения - ***/app/conversations***  
+Топик для подписки и получения сообщений - ***/conversations/messages***  
+Структура сообщения:
+```json
+{
+  "conversationId": 1,
+  "senderId": 1,
+  "content": "Я контент"
+}
+```
 
 ## Endpoints
 
