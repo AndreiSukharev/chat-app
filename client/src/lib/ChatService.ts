@@ -62,6 +62,8 @@ export class ChatService implements IChatService {
     client.heartbeat.outgoing = 10000;
     client.heartbeat.incoming = 10000;
 
+    if (client.connected) return;
+
     client.connect(
       {},
       () => {
@@ -74,13 +76,6 @@ export class ChatService implements IChatService {
         }
       },
     );
-  }
-
-  setStorage(storage: IStorage) {
-    this.storage = storage;
-  }
-  setUpdateState(update: UpdateState) {
-    this.updateState = update;
   }
 
   sendMessage({ message, conversationId }: SendMessageServiceParams) {
@@ -140,15 +135,6 @@ export class ChatService implements IChatService {
   };
 }
 
-let Service: ChatService;
-
 export const serviceFactory = (storage: IStorage, updateState: UpdateState) => {
-  if (!Service) {
-    Service = new ChatService(storage, updateState);
-    return Service;
-  }
-  Service.setStorage(storage);
-  Service.setUpdateState(updateState);
-
-  return Service;
+  return new ChatService(storage, updateState);
 };
