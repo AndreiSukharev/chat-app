@@ -6,8 +6,8 @@
 Структура сообщения:
 ```json
 {
-  "conversationId": 1,
-  "senderId": 1,
+  "conversationId": "1",
+  "senderId": "1",
   "content": "Я контент"
 }
 ```

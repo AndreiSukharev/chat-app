@@ -39,7 +39,7 @@ public class MessageRestController {
     private MessageEntity mapMessageToMessageEntity(Message message) {
         MessageEntity messageEntity = new MessageEntity();
         messageEntity.setContent(message.getContent());
-        long senderId = message.getSenderId();
+        long senderId = Long.parseLong(message.getSenderId());
         Optional<UserEntity> byId = userRepository.findById(senderId);
         // TODO: 12/06/2021 тут упадём если пользователя нет
         messageEntity.setSender(byId.get());
@@ -49,7 +49,7 @@ public class MessageRestController {
     private Message mapMessageEntityToMessage(MessageEntity messageEntity) {
         Message message = new Message();
         message.setContent(messageEntity.getContent());
-        message.setSenderId(messageEntity.getSender().getId());
+        message.setSenderId(String.valueOf(messageEntity.getSender().getId()));
         return message;
     }
 }

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import './themes/default/main.scss';
 import './App.css';
 import './css/MessageStyle.css';
-import NameComponent from './components/NameComponent';
 import { Box, createMuiTheme, MuiThemeProvider } from '@material-ui/core';
 import { nanoid } from 'nanoid';
 import {
@@ -11,33 +10,28 @@ import {
   Conversation,
   ConversationId,
   ConversationRole,
-  IStorage,
   MessageContentType,
   Participant,
   Presence,
   ChatProvider,
   TypingUsersList,
-  UpdateState,
   User,
   UserStatus,
+  BasicStorage,
 } from '@chatscope/use-chat';
-import { ChatService } from './lib/ChatService';
-import { Storage } from './lib/Storage';
+import { serviceFactory } from './lib/ChatService';
 import { userModel, users } from './data/data';
 import { Chat } from './components/Chat';
-import Login from "./components/login/Login";
+import Login from './components/login/Login';
 
 const messageIdGenerator = (message: ChatMessage<MessageContentType>) => nanoid();
 const groupIdGenerator = () => nanoid();
-const userStorage = new Storage({ groupIdGenerator, messageIdGenerator });
+const userStorage = new BasicStorage({ groupIdGenerator, messageIdGenerator });
 
 // Create serviceFactory
-const serviceFactory = (storage: IStorage, updateState: UpdateState) => {
-  return new ChatService(storage, updateState);
-};
 
 const user = new User({
-  id: userModel.name,
+  id: '1234',
   presence: new Presence({ status: UserStatus.Available, description: '' }),
   firstName: '',
   lastName: '',
@@ -112,7 +106,7 @@ const theme = createMuiTheme({
 });
 
 const App = () => {
-  const [author, setAuthor] = useState('');
+  const [author, setAuthor] = useState('мдфв');
 
   useEffect(() => {
     user.username = author;
@@ -120,26 +114,28 @@ const App = () => {
 
   return (
     <MuiThemeProvider theme={theme}>
-      <div>
-        <Login/>
-        {/*<NameComponent setName={setAuthor} />*/}
-      </div>
-      {author && (
-        <Box height="100vh" overflow="hidden">
-          <ChatProvider
-            serviceFactory={serviceFactory}
-            storage={userStorage}
-            config={{
-              typingThrottleTime: 250,
-              typingDebounceTime: 900,
-              debounceTyping: true,
-              autoDraft: AutoDraft.Save | AutoDraft.Restore,
-            }}
-          >
-            <Chat user={user} />
-          </ChatProvider>
-        </Box>
-      )}
+      <ChatProvider
+        serviceFactory={serviceFactory}
+        storage={userStorage}
+        config={{
+          typingThrottleTime: 250,
+          typingDebounceTime: 900,
+          debounceTyping: true,
+          autoDraft: AutoDraft.Save | AutoDraft.Restore,
+        }}
+      >
+        <>
+          <div>
+            {/*<Login/>*/}
+            {/*<NameComponent setName={setAuthor} />*/}
+          </div>
+          {author && (
+            <Box height="100vh" overflow="hidden">
+              <Chat user={user} />
+            </Box>
+          )}
+        </>
+      </ChatProvider>
     </MuiThemeProvider>
   );
 };

@@ -9,17 +9,17 @@ export const userModel = {
 };
 
 export const eliotModel = {
-  name: 'Eliot',
+  name: 'Миша',
   avatar: eliotAvatar,
 };
 
 export const emilyModel = {
-  name: 'Emily',
+  name: 'Маша',
   avatar: emilyAvatar,
 };
 
 export const joeModel = {
-  name: 'Joe',
+  name: 'Паша',
   avatar: joeAvatar,
 };
 export const users = [userModel, eliotModel, emilyModel, joeModel];

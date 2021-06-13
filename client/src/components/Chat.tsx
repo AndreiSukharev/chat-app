@@ -50,10 +50,12 @@ export const Chat: React.FC<ChatProps> = ({ user }) => {
         !search
           ? conversations
           : conversations.filter(
-          (c) => c.participants[0] && getUser(c.participants[0].id)?.username.toLowerCase().indexOf(search.toLowerCase()) !== -1,
-          ),
+              (c) =>
+                c.participants[0] &&
+                getUser(c.participants[0].id)?.username.toLowerCase().indexOf(search.toLowerCase()) !== -1,
+            ),
       );
-    }, 100)
+    }, 100);
 
     return () => clearTimeout(id);
   }, [search, conversations]);
