@@ -1,23 +1,21 @@
 package com.example.sbercloud.chat.persistence.entity;
 
-import com.example.sbercloud.chat.model.ConversationType;
+import com.example.sbercloud.chat.model.Permission;
+import com.example.sbercloud.chat.persistence.converter.PermissionSetConverter;
 import com.example.sbercloud.chat.persistence.sequence.SequenceNameGenerator;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.Set;
 
 /**
  * @author Bulygin D.N.
- * @since 12.06.2021
+ * @since 13.06.2021
  */
 @Data
-@Entity(name = "conversation")
-public class ConversationEntity {
+@Entity(name = "participant")
+public class ParticipantEntity {
 
     /**
      * Идентификатор
@@ -31,18 +29,15 @@ public class ConversationEntity {
     private long id;
 
     /**
-     * Наименование беседы
+     * Пользователь
      */
-    private String title;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
     /**
-     * Тип беседы
+     * Разрешения участника беседы
      */
-    private ConversationType type;
-
-    /**
-     * Участники беседы
-     */
-    @ManyToMany
-    private Set<ParticipantEntity> participants;
+    @Convert(converter = PermissionSetConverter.class)
+    private Set<Permission> permissions;
 }
