@@ -7,6 +7,7 @@ package com.example.sbercloud.chat.utility;
 public class Constant {
 
     public static final String DELIMITER_CHAR = ";";
+    public static final String CHATBOT_USER_ID = "1";
 
     private Constant() {
         throw new IllegalStateException("Utility class");
