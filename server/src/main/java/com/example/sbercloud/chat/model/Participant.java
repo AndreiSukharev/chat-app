@@ -2,7 +2,6 @@ package com.example.sbercloud.chat.model;
 
 import lombok.Data;
 
-import javax.persistence.Column;
 import java.util.Set;
 
 /**
@@ -17,7 +16,7 @@ public class Participant {
     /**
      * Идентификатор пользователя
      */
-    private Long userId;
+    private String userId;
 
     /**
      * Разрешения участника беседы

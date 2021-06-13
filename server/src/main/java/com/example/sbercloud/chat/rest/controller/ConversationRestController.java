@@ -87,7 +87,7 @@ public class ConversationRestController {
 
     private Conversation mapConversationEntityToConversation(ConversationEntity conversationEntity) {
         Conversation conversation = new Conversation();
-        conversation.setId(conversationEntity.getId());
+        conversation.setId(String.valueOf(conversationEntity.getId()));
         conversation.setTitle(conversationEntity.getTitle());
         conversation.setType(conversationEntity.getType());
         Set<Participant> participants = conversationEntity.getParticipants().stream()
@@ -99,14 +99,14 @@ public class ConversationRestController {
 
     private Participant mapParticipantEntityToParticipant(ParticipantEntity participantEntity) {
         Participant participant = new Participant();
-        participant.setUserId(participantEntity.getUser().getId());
+        participant.setUserId(String.valueOf(participantEntity.getUser().getId()));
         participant.setPermissions(participantEntity.getPermissions());
         return participant;
     }
 
     private ParticipantEntity mapParticipantToParticipantEntity(Participant participant) {
         ParticipantEntity participantEntity = new ParticipantEntity();
-        UserEntity userEntity = findUserEntityById(participant.getUserId());
+        UserEntity userEntity = findUserEntityById(Long.parseLong(participant.getUserId()));
         participantEntity.setUser(userEntity);
         participantEntity.setPermissions(participant.getPermissions());
         return participantEntity;
