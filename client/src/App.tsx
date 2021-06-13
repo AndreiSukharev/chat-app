@@ -105,7 +105,7 @@ const theme = createMuiTheme({
 });
 
 const App = () => {
-  const [author, setAuthor] = useState('мдфв');
+  const [author, setAuthor] = useState('');
 
   useEffect(() => {
     user.username = author;
@@ -113,28 +113,26 @@ const App = () => {
 
   return (
     <MuiThemeProvider theme={theme}>
-      <ChatProvider
-        serviceFactory={serviceFactory}
-        storage={userStorage}
-        config={{
-          typingThrottleTime: 250,
-          typingDebounceTime: 900,
-          debounceTyping: true,
-          autoDraft: AutoDraft.Save | AutoDraft.Restore,
-        }}
-      >
-        <>
-          <div>
-            {/*<Login/>*/}
-            {/*<NameComponent setName={setAuthor} />*/}
-          </div>
-          {author && (
-            <Box height="100vh" overflow="hidden">
-              <Chat user={user} />
-            </Box>
-          )}
-        </>
-      </ChatProvider>
+      <div>
+        <Login/>
+        {/*<NameComponent setName={setAuthor} />*/}
+      </div>
+      {author && (
+        <Box height="100vh" overflow="hidden">
+          <ChatProvider
+            serviceFactory={serviceFactory}
+            storage={userStorage}
+            config={{
+              typingThrottleTime: 250,
+              typingDebounceTime: 900,
+              debounceTyping: true,
+              autoDraft: AutoDraft.Save | AutoDraft.Restore,
+            }}
+          >
+            <Chat user={user} />
+          </ChatProvider>
+        </Box>
+      )}
     </MuiThemeProvider>
   );
 };

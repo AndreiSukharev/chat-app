@@ -92,7 +92,7 @@ const Login: React.FC = () => {
                         fullWidth
                         variant="contained"
                         color="primary"
-                        onClick={signInGitHub}
+                        href="http://localhost:8080/oauth2/authorize/github?redirect_uri=http://localhost:3000/oauth2/redirect"
                         className={classes.input}
                     >
                         Войти через GitHub
