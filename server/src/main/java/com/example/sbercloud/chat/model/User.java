@@ -12,7 +12,7 @@ public class User {
     /**
      * Идентификатор
      */
-    private Long id;
+    private String id;
 
     /**
      * Имя пользователя

@@ -65,7 +65,7 @@ public class UserRestController {
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
     public void updateUser(@RequestBody User user) {
         // TODO: 12/06/2021 падаем если нет пользователя
-        UserEntity currentUserEntity = userRepository.findById(user.getId()).get();
+        UserEntity currentUserEntity = userRepository.findById(Long.parseLong(user.getId())).get();
         updateUserEntity(currentUserEntity, user);
     }
 
@@ -87,7 +87,7 @@ public class UserRestController {
 
     private User mapUserEntityToUser(UserEntity userEntity) {
         User user = new User();
-        user.setId(userEntity.getId());
+        user.setId(String.valueOf(userEntity.getId()));
         user.setFirstName(userEntity.getFirstName());
         user.setLastName(userEntity.getLastName());
         user.setUsername(userEntity.getUsername());

@@ -15,7 +15,7 @@ public class Conversation {
     /**
      * Идентификатор беседы
      */
-    private long id;
+    private String id;
 
     /**
      * Наименование беседы
