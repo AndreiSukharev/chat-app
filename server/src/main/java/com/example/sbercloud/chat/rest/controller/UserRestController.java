@@ -52,12 +52,12 @@ public class UserRestController {
     public void createUser(final @RequestBody UserSpec userSpec) {
         UserEntity userEntity = userRepository.findByUsername(userSpec.getUsername())
                 .orElseGet(() -> createUserInternal(userSpec));
-        postSaveHandlers.forEach(userPostSaveHandler -> userPostSaveHandler.handle(userEntity));
     }
 
     private UserEntity createUserInternal(UserSpec userSpec) {
         UserEntity userEntity = mapUserSpecToUserEntity(userSpec);
         userRepository.save(userEntity);
+        postSaveHandlers.forEach(userPostSaveHandler -> userPostSaveHandler.handle(userEntity));
         return userEntity;
     }
 
