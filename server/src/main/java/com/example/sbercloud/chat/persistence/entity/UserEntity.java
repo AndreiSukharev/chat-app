@@ -49,7 +49,7 @@ public class UserEntity {
     /**
      * Список бесед
      */
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
     private List<ConversationEntity> conversations;
 
 }

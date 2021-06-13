@@ -11,8 +11,9 @@ import javax.persistence.*;
  * @since 12.06.2021
  */
 @Data
-@Entity(name = "message")
-public class MessageEntity {
+@Entity(name = "simplemessage")
+@Table(name = "message")
+public class SimpleMessageEntity {
 
     /**
      * Идентификатор
@@ -30,12 +31,10 @@ public class MessageEntity {
      */
     private String content;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private UserEntity sender;
+    @Column(name = "user_id")
+    private Long userId;
 
-    @OneToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "conversation_id")
-    private ConversationEntity conversation;
+    @Column(name = "conversation_id")
+    private Long conversationId;
 
 }
