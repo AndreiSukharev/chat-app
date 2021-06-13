@@ -1,4 +1,4 @@
-package com.example.sbercloud.chat.rest.controller;
+package com.example.sbercloud.chat.service.user;
 
 import com.example.sbercloud.chat.persistence.entity.UserEntity;
 

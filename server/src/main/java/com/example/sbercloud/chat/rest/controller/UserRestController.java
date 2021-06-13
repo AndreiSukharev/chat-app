@@ -4,6 +4,7 @@ import com.example.sbercloud.chat.model.User;
 import com.example.sbercloud.chat.model.UserSpec;
 import com.example.sbercloud.chat.persistence.entity.UserEntity;
 import com.example.sbercloud.chat.persistence.repository.UserRepository;
+import com.example.sbercloud.chat.service.user.UserPostSaveHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

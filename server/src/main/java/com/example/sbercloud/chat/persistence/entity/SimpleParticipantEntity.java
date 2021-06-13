@@ -15,8 +15,9 @@ import java.util.Set;
  * @since 13.06.2021
  */
 @Data
-@Entity(name = "participant")
-public class ParticipantEntity {
+@Entity(name = "simpleparticipant")
+@Table(name = "participant")
+public class SimpleParticipantEntity {
 
     /**
      * Идентификатор
@@ -32,16 +33,14 @@ public class ParticipantEntity {
     /**
      * Пользователь
      */
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
+    @Column(name = "user_id")
+    private long userId;
 
     /**
-     * Беседа
+     * Пользователь
      */
-    @ManyToOne()
-    @JoinColumn(name = "convesation_id")
-    private ConversationEntity conversation;
+    private long conversationId;
+
 
     /**
      * Разрешения участника беседы

@@ -46,10 +46,4 @@ public class UserEntity {
      */
     private String email;
 
-    /**
-     * Список бесед
-     */
-    @ManyToMany(cascade = CascadeType.MERGE)
-    private List<ConversationEntity> conversations;
-
 }

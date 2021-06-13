@@ -5,10 +5,7 @@ import com.example.sbercloud.chat.persistence.sequence.SequenceNameGenerator;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.Set;
 
 /**
@@ -43,6 +40,6 @@ public class ConversationEntity {
     /**
      * Участники беседы
      */
-    @ManyToMany
+    @OneToMany(mappedBy = "conversation")
     private Set<ParticipantEntity> participants;
 }

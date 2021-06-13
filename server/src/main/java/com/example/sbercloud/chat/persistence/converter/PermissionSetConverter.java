@@ -22,7 +22,7 @@ public class PermissionSetConverter implements AttributeConverter<Set<Permission
     @Override
     public String convertToDatabaseColumn(Set<Permission> permissions) {
         String columnValue;
-        if(permissions != null) {
+        if (permissions != null) {
             columnValue = permissions.stream()
                     .map(Enum::name)
                     .collect(joining(DELIMITER_CHAR));

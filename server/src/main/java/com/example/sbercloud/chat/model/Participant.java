@@ -2,6 +2,7 @@ package com.example.sbercloud.chat.model;
 
 import lombok.Data;
 
+import javax.persistence.Column;
 import java.util.Set;
 
 /**

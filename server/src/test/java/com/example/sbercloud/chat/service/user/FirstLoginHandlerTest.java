@@ -1,11 +1,9 @@
-package com.example.sbercloud.chat.rest.controller;
+package com.example.sbercloud.chat.service.user;
 
-import com.example.sbercloud.chat.model.Conversation;
 import com.example.sbercloud.chat.persistence.entity.ConversationEntity;
 import com.example.sbercloud.chat.persistence.entity.UserEntity;
-import com.example.sbercloud.chat.persistence.repository.ConversationRepository;
-import com.example.sbercloud.chat.persistence.repository.MessageRepository;
-import com.example.sbercloud.chat.persistence.repository.UserRepository;
+import com.example.sbercloud.chat.persistence.repository.*;
+import com.example.sbercloud.chat.service.user.FirstLoginHandler;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -32,19 +30,23 @@ public class FirstLoginHandlerTest {
     private ConversationRepository conversationRepository;
 
     @Mock
-    private MessageRepository messageRepository;
+    private SimpleParticipantRepository participantRepository;
+
+    @Mock
+    private SimpleMessageRepository messageRepository;
 
     @Test
     public void testGenerateMockDataSavesToRepositories() {
-        UserEntity chanBotUser = new UserEntity();
-        Mockito.when(userRepository.findById(-1L)).thenReturn(Optional.of(chanBotUser));
+        UserEntity chatBotUser = new UserEntity();
+        Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(chatBotUser));
         ConversationEntity commonConversation = new ConversationEntity();
-        Mockito.when(conversationRepository.findById(-1L)).thenReturn(Optional.of(commonConversation));
+        Mockito.when(conversationRepository.findById(1L)).thenReturn(Optional.of(commonConversation));
 
+        handler.init();
         UserEntity newUser = new UserEntity();
         handler.handle(newUser);
-        verify(userRepository, times(1)).save(newUser);
         verify(conversationRepository, times(1)).save(any());
         verify(messageRepository, times(1)).save(any());
+        verify(participantRepository, times(1)).saveAll(any());
     }
 }
