@@ -2,8 +2,8 @@ package com.example.sbercloud.chat.model;
 
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Bulygin D.N.
@@ -12,8 +12,24 @@ import java.util.List;
 @Data
 public class Conversation {
 
+    /**
+     * Идентификатор беседы
+     */
     private long id;
 
-    private List<User> participants = new ArrayList<>();
+    /**
+     * Наименование беседы
+     */
+    private String title;
+
+    /**
+     * Тип беседы
+     */
+    private ConversationType type;
+
+    /**
+     * Участники беседы
+     */
+    private Set<Participant> participants = new HashSet<>();
 
 }

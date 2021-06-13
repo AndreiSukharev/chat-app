@@ -2,7 +2,6 @@ package com.example.sbercloud.chat.persistence.repository;
 
 import com.example.sbercloud.chat.persistence.entity.ConversationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
 
 /**
  * @author Bulygin D.N.

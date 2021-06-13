@@ -8,5 +8,8 @@ spring:
             client-secret: 08cec283241cded9ff5a9b428afe116dfe8429e5
 
 #logging:
-#  level:
+#  level: com.example.sbercloud.chat
 #    org.springframework.security: DEBUG
+logging:
+  level:
+    com.example.sbercloud.chat: DEBUG
