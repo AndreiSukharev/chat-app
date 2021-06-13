@@ -1,14 +1,18 @@
 package com.example.sbercloud.chat.rest.controller;
 
+import com.example.sbercloud.chat.model.Message;
 import com.example.sbercloud.chat.persistence.entity.MessageEntity;
 import com.example.sbercloud.chat.persistence.entity.UserEntity;
 import com.example.sbercloud.chat.persistence.repository.MessageRepository;
 import com.example.sbercloud.chat.persistence.repository.UserRepository;
-import com.example.sbercloud.chat.model.Message;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author Bulygin D.N.
@@ -36,6 +40,16 @@ public class MessageRestController {
         MessageEntity save = messageRepository.save(messageEntity);
     }
 
+    @GetMapping("conversation/{conversationId}")
+    public List<Message> getMessagesByConversationId(@PathVariable long conversationId,
+                                                          @RequestParam(value = "page", defaultValue = "0", required = false) int page,
+                                                          @RequestParam(value = "pageSize", defaultValue = "20", required = false) int pageSize) {
+        PageRequest pageRequest = PageRequest.of(page, pageSize);
+        Page<MessageEntity> searchMessageEntityResult = messageRepository.findAllByConversation_Id(pageRequest, conversationId);
+        List<Message> foundMessages = searchMessageEntityResult.getContent().stream().map(this::mapMessageEntityToMessage).collect(Collectors.toList());
+        return foundMessages;
+    }
+
     private MessageEntity mapMessageToMessageEntity(Message message) {
         MessageEntity messageEntity = new MessageEntity();
         messageEntity.setContent(message.getContent());
@@ -52,4 +66,5 @@ public class MessageRestController {
         message.setSenderId(String.valueOf(messageEntity.getSender().getId()));
         return message;
     }
+
 }
