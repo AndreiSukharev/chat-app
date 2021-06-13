@@ -38,7 +38,7 @@ public class SberCloudChatApplication {
 						.addMapping("/**")
 						.allowCredentials(true)
 						.allowedHeaders("*")
-						.allowedOrigins("*")
+						.allowedOrigins("http:/localhost:3000")
 						.allowedMethods("*");
 			}
 		};
