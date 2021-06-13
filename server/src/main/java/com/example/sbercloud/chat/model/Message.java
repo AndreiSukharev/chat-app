@@ -8,10 +8,16 @@ public class Message {
     /**
      * Идентификатор беседы
      */
-    private long conversationId;
+    private String conversationId;
 
-    private long senderId;
+    /**
+     * Идентификатор пользователя, который отправил сообщение
+     */
+    private String senderId;
 
+    /**
+     * Контент сообщения
+     */
     private String content;
 
 }
