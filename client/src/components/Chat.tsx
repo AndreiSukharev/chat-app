@@ -160,13 +160,13 @@ export const Chat: React.FC<ChatProps> = ({ user }) => {
         <ConversationList>
           {filteredConversations.map((c) => {
             // Helper for getting the data of the first participant
-            const [avatar, name] = (() => {
+            const [avatar, name, bio] = (() => {
               const participant = c.participants.length > 0 ? c.participants[0] : undefined;
 
               if (participant) {
                 const user = getUser(participant.id);
                 if (user) {
-                  return [<Avatar src={user.avatar} />, user.username];
+                  return [<Avatar src={user.avatar} />, user.username, user.bio];
                 }
               }
 
@@ -177,7 +177,7 @@ export const Chat: React.FC<ChatProps> = ({ user }) => {
               <Conversation
                 key={c.id}
                 name={name}
-                info={c.draft ? `Черновик: ${c.draft.replace(/<br>/g, '\n').replace(/&nbsp;/g, ' ')}` : user.bio}
+                info={c.draft ? `Черновик: ${c.draft.replace(/<br>/g, '\n').replace(/&nbsp;/g, ' ')}` : bio}
                 active={activeConversation?.id === c.id}
                 unreadCnt={c.unreadCounter}
                 onClick={() => setActiveConversation(c.id)}
@@ -228,6 +228,7 @@ export const Chat: React.FC<ChatProps> = ({ user }) => {
               onChange={handleChange}
               onSend={handleSend}
               disabled={!activeConversation}
+              onAttachClick={() => alert('hi')}
               attachButton={true}
               placeholder="Введите сообщение..."
             />

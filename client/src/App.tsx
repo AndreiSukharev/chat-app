@@ -10,18 +10,20 @@ import {
   Conversation,
   ConversationId,
   ConversationRole,
+  MessageContentType,
+  Participant,
   Presence,
   ChatProvider,
   TypingUsersList,
   User,
   UserStatus,
-  BasicStorage, Participant,
+  BasicStorage,
 } from '@chatscope/use-chat';
 import { serviceFactory } from './lib/ChatService';
-import { userModel, users } from './data/data';
 import { Chat } from './components/Chat';
 import Login from './components/login/Login';
-import {MessageContentType} from "@chatscope/use-chat";
+import httpClient from './services/httpClient';
+import userAvatar from './assets/avatar.svg';
 
 const messageIdGenerator = (message: ChatMessage<MessageContentType>) => nanoid();
 const groupIdGenerator = () => nanoid();
@@ -30,24 +32,24 @@ const userStorage = new BasicStorage({ groupIdGenerator, messageIdGenerator });
 // Create serviceFactory
 
 const user = new User({
-  id: '1234',
+  id: '2',
   presence: new Presence({ status: UserStatus.Available, description: '' }),
   firstName: '',
   lastName: '',
-  username: userModel.name,
+  username: '',
   email: '',
-  avatar: userModel.avatar,
+  avatar: userAvatar,
   bio: 'Очень интересно',
 });
 
-const chat = { name: 'User', storage: userStorage };
+const chat = { name: 'User', storage: userStorage, id: '2' };
 
-function createConversation(id: ConversationId, name: string): Conversation {
+function createConversation(id: ConversationId, userId: string): Conversation {
   return new Conversation({
     id,
     participants: [
       new Participant({
-        id: name,
+        id: userId,
         role: new ConversationRole([]),
       }),
     ],
@@ -57,41 +59,43 @@ function createConversation(id: ConversationId, name: string): Conversation {
   });
 }
 
-// Add users and conversations to the states
-users.forEach((u) => {
-  if (u.name !== chat.name) {
-    chat.storage.addUser(
-      new User({
-        id: u.name,
-        presence: new Presence({ status: UserStatus.Available, description: '' }),
-        firstName: '',
-        lastName: '',
-        username: u.name,
-        email: '',
-        avatar: u.avatar,
-        bio: 'Ух ты',
-      }),
-    );
+const init = (users: User[]) => {
+  // Add users and conversations to the states
+  users.forEach((u) => {
+    if (u.id !== chat.id) {
+      chat.storage.addUser(
+        new User({
+          id: u.id,
+          presence: new Presence({ status: UserStatus.Available, description: '' }),
+          firstName: '',
+          lastName: '',
+          username: u.username,
+          email: '',
+          avatar: u.avatar || userAvatar,
+          bio: 'Ух ты ' + u.id,
+        }),
+      );
 
-    const conversationId = nanoid();
+      const conversationId = u.id;
 
-    const myConversation = chat.storage
-      .getState()
-      .conversations.find((cv) => typeof cv.participants.find((p) => p.id === u.name) !== 'undefined');
-    if (!myConversation) {
-      chat.storage.addConversation(createConversation(conversationId, u.name));
+      const myConversation = chat.storage.getState().conversations.find((cv) => {
+        return typeof cv.participants.find((p) => p.id === u.id) !== 'undefined';
+      });
+      if (!myConversation) {
+        chat.storage.addConversation(createConversation(conversationId, u.id));
 
-      if (chat) {
-        const hisConversation = chat.storage
-          .getState()
-          .conversations.find((cv) => typeof cv.participants.find((p) => p.id === chat.name) !== 'undefined');
-        if (!hisConversation) {
-          chat.storage.addConversation(createConversation(conversationId, chat.name));
+        if (chat) {
+          const hisConversation = chat.storage
+            .getState()
+            .conversations.find((cv) => typeof cv.participants.find((p) => p.id === chat.id) !== 'undefined');
+          if (!hisConversation) {
+            chat.storage.addConversation(createConversation(conversationId, chat.id));
+          }
         }
       }
     }
-  }
-});
+  });
+};
 
 const theme = createMuiTheme({
   palette: {
@@ -105,36 +109,53 @@ const theme = createMuiTheme({
 });
 
 const App = () => {
-  const [author, setAuthor] = useState('мдфв');
+  const [author, setAuthor] = useState('');
+  const [users, setUsers] = useState<User[]>([]);
+  const [conversations, setConversations] = useState<Conversation[]>([]);
 
   useEffect(() => {
     user.username = author;
   }, [author]);
 
+  useEffect(() => {
+    httpClient.get('/users').then((result) => setUsers(result.data));
+  }, []);
+
+  useEffect(() => {
+    if (users.length !== 0) {
+      init(users);
+      setAuthor('vlad');
+    }
+  }, [users]);
+
+  useEffect(() => {
+    httpClient.get('/conversations').then((result) => setConversations(result.data));
+  }, []);
+
   return (
     <MuiThemeProvider theme={theme}>
-      <ChatProvider
-        serviceFactory={serviceFactory}
-        storage={userStorage}
-        config={{
-          typingThrottleTime: 250,
-          typingDebounceTime: 900,
-          debounceTyping: true,
-          autoDraft: AutoDraft.Save | AutoDraft.Restore,
-        }}
-      >
-        <>
-          <div>
-            {/*<Login/>*/}
-            {/*<NameComponent setName={setAuthor} />*/}
-          </div>
-          {author && (
+      <>
+        <div>
+          {/*<Login/>*/}
+          {/*<NameComponent setName={setAuthor} />*/}
+        </div>
+        {author && (
+          <ChatProvider
+            serviceFactory={serviceFactory}
+            storage={userStorage}
+            config={{
+              typingThrottleTime: 250,
+              typingDebounceTime: 900,
+              debounceTyping: true,
+              autoDraft: AutoDraft.Save | AutoDraft.Restore,
+            }}
+          >
             <Box height="100vh" overflow="hidden">
               <Chat user={user} />
             </Box>
-          )}
-        </>
-      </ChatProvider>
+          </ChatProvider>
+        )}
+      </>
     </MuiThemeProvider>
   );
 };
