@@ -1,15 +1,21 @@
 spring:
-  security:
-    oauth2:
-      client:
-        registration:
-          github:
-            client-id: 8918919b3bad8fcab8e0
-            client-secret: 08cec283241cded9ff5a9b428afe116dfe8429e5
-
+    datasource:
+      url: jdbc:postgresql://37.18.100.40:5432/prom
+      password: changeme
+      username: postgres
+    jpa:
+      hibernate:
+        ddl-auto: create-drop
+      properties:
+        hibernate:
+          show_sql: true
+          format_sql: true
+          default_schema: prom
+    logging:
+      level:
+        org:
+          hibernate:
+            type: trace
 #logging:
-#  level: com.example.sbercloud.chat
+#  level:
 #    org.springframework.security: DEBUG
-logging:
-  level:
-    com.example.sbercloud.chat: DEBUG
